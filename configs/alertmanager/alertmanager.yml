@@ -1,0 +1,19 @@
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'email-and-telegram'  # или только 'email'
+
+receivers:
+- name: 'email-and-telegram'
+  email_configs:
+  - to: 'clevis.bash@gmail.com'
+    from: 'clevis.bash@gmail.com'   # обычно совпадает с to
+    smarthost: 'smtp.gmail.com:587'
+    auth_username: 'clevis.bash@gmail.com'
+    auth_password: 'your_app_password_here'  # Замените на реальный при локальном тесте
+    send_resolved: true
+    headers:
+      Subject: '⚠️ {{ .GroupLabels.alertname }}'
+
