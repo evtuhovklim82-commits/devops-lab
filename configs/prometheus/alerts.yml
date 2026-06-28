@@ -1,21 +1,12 @@
-groups:
-  - name: node_alerts
-    interval: 30s
-    rules:
-      - alert: HighCPUUsage
-        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
-        for: 2m
-        labels:
-          severity: warning
-        annotations:
-          summary: "High CPU load on {{ $labels.instance }}"
-          description: "CPU load is {{ $value }} 0,000000or 2 minutes"
 
-      - alert: LowDiskSpace
-        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+groups:
+  - name: example
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "Low disk space on {{ $labels.mountpoint }}"
-          description: "Only {{ $value }} 0,000000ree on root filesystem"
+          summary: "Instance down"
+
